@@ -7,7 +7,11 @@ admin.site.register(UserProfile)
 
 @admin.register(Blog)
 class Blogadmin(admin.ModelAdmin):
-    list_display=['title','category','truncated_summary', 'truncated_content','save_as_draft']
+    list_display=['creator','title','category','truncated_summary', 'truncated_content','save_as_draft']
+    
+    
+    def creator(self,obj):
+        return obj.userprofile.username
     
     def truncated_summary(self,obj):
         words = obj.summary.split()
