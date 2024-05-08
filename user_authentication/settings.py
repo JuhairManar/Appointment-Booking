@@ -57,6 +57,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'user_authentication.urls'
+
 CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = ['https://authentication-system-8vrr.onrender.com','https://*.127.0.0.1' ]
 CORS_ALLOW_ALL_ORIGINS: True

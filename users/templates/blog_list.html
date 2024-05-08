@@ -4,7 +4,7 @@
 {% block body %}
 <h1>Welcome to the blog list page</h1>
 
-<!-- <div>
+<div>
   <label for="category">Select a category:</label>
   <select id="category">
     <option value="All Categories">All Categories</option>
@@ -12,7 +12,7 @@
     <option value="{{ category }}">{{ category }}</option>
     {% endfor %}
   </select>
-</div> -->
+</div>
 
 <div style="margin:auto;width:70%">
   <table class="table table-bordered">
@@ -37,16 +37,20 @@
   </table>
 </div>
 
-<!-- <script>
+<script>
   document.getElementById('category').addEventListener('change', function() {
     var selectedCategory = this.value;
-    var blogList = document.getElementById('blog-list');
-    fetch('/blog-list/?category=' + selectedCategory)
+    fetch('/blog_list/?category=' + selectedCategory)
       .then(response => response.text())
       .then(data => {
-        blogList.innerHTML = data;
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data;
+        
+        var newRows = tempDiv.querySelector('#blog-list').innerHTML;
+        
+        document.getElementById('blog-list').innerHTML = newRows;
       });
   });
-</script> -->
+</script>
 
 {% endblock %}

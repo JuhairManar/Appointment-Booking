@@ -173,23 +173,23 @@ def create_post(request):
         form = Create_Blog()
     return render(request, 'create_blog.html', {'form': form})
 
-def blog_list(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    blogs=Blog.objects.filter(save_as_draft=False)
-    return render(request,'blog_list.html',{'blogs':blogs})
-
-
 # def blog_list(request):
-#     categories = [category[0] for category in Blog.CATEGORIES]
-#     selected_category = request.GET.get('category')
+#     if not request.user.is_authenticated:
+#         return redirect('login')
+#     blogs=Blog.objects.filter(save_as_draft=False)
+#     return render(request,'blog_list.html',{'blogs':blogs})
 
-#     if selected_category and selected_category != 'All Categories':
-#         blogs = Blog.objects.filter(category=selected_category, save_as_draft=False)
-#     else:
-#         blogs = Blog.objects.filter(save_as_draft=False)
 
-#     return render(request, 'blog_list.html', {'blogs': blogs, 'categories': categories})
+def blog_list(request):
+    categories = [category[0] for category in Blog.CATEGORIES]
+    selected_category = request.GET.get('category')
+
+    if selected_category and selected_category != 'All Categories':
+        blogs = Blog.objects.filter(category=selected_category, save_as_draft=False)
+    else:
+        blogs = Blog.objects.filter(save_as_draft=False)
+
+    return render(request, 'blog_list.html', {'blogs': blogs, 'categories': categories})
 
 
 def my_blogs(request):
