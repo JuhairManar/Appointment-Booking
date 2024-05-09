@@ -23,8 +23,8 @@
           <td>{{ blog.title }}</td>
           <td><img src="{{ blog.image.url }}" alt="Blog Image" style="max-width: 150px; max-height: 150px;"></td>
           <td>{{ blog.category}}</td>
-          <td>{{ blog.summary}}</td>
-          <td>{{ blog.content}}</td>
+          <td>{{ blog.summary | truncatewords:20}}</td>
+          <td>{{ blog.content | truncatewords:25}}</td>
           <td>{{ blog.save_as_draft}}</td>
           <td>
             <div class="d-flex">
