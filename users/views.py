@@ -65,7 +65,8 @@ def patient_signup(request):
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
-            user.title='Dr.'
+            user.title='Mr.'
+            user.is_staff=False
             user.save()  
             login(request, user)
             messages.success(request, 'Patient Account Created Successfully')
