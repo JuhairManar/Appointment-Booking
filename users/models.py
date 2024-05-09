@@ -29,10 +29,10 @@ class Blog(models.Model):
         ('Immunization', 'Immunization'),
     )
     
-    userprofile =models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='blogs')
-    title =models.CharField(max_length=100)
-    image =models.ImageField(upload_to='blog_images')
-    category =models.CharField(choices=CATEGORIES, max_length=50)
-    summary =models.TextField()
-    content =models.TextField() 
-    save_as_draft =models.BooleanField()
+    userprofile=models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='blogs')
+    title=models.CharField(max_length=100)
+    image=models.ImageField(upload_to='blog_images')
+    category=models.CharField(choices=CATEGORIES, max_length=50)
+    summary=models.TextField()
+    content=models.TextField() 
+    save_as_draft=models.BooleanField()
