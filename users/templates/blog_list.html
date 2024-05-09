@@ -43,10 +43,10 @@
     fetch('/blog_list/?category=' + selectedCategory)
       .then(response => response.text())
       .then(data => {
-        var tempDiv = document.createElement('div');
+        var tempDiv=document.createElement('div');
         tempDiv.innerHTML = data;
         
-        var newRows = tempDiv.querySelector('#blog-list').innerHTML;
+        var newRows=tempDiv.querySelector('#blog-list').innerHTML;
         
         document.getElementById('blog-list').innerHTML = newRows;
       });
