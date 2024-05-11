@@ -150,3 +150,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+credentials_file_path = os.path.join(BASE_DIR, 'credentials', 'credentials.json')
