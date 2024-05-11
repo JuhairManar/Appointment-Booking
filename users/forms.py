@@ -39,6 +39,30 @@ class Create_Blog(forms.ModelForm):
     class Meta:
         model = Blog
         fields = ['title', 'image', 'category', 'summary', 'content', 'save_as_draft']
+        
+        
+# class AppointmentForm(forms.ModelForm):
+#     class Meta:
+#         model = Appointment
+#         fields = ['required_speciality', 'date_of_appointment', 'start_time',]
+
+class AppointmentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date_of_appointment'].widget = forms.Select(choices=Appointment.get_next_7_days())
+        self.fields['start_time'].widget = forms.Select(choices=Appointment.get_start_time_choices())
+
+    class Meta:
+        model = Appointment
+        fields = ['required_speciality', 'date_of_appointment', 'start_time']
+        
+    # def clean(self):
+    #     cleaned_data=super().clean()
+    #     start_time=cleaned_data.get('start_time')
+    #     if start_time:
+    #         end_time=start_time + datetime.timedelta(minutes=45)
+    #         cleaned_data['end_time'] = end_time
+    #     return cleaned_data
 
 class ChangeUserData(UserChangeForm):
     password=None #it won't show password field

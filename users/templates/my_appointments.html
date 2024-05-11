@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}My Appointments{% endblock %}
+
+{% block body %}
+<h1>My appointment lists</h1>
+
+<div style="margin:auto;width:70%">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+            {% if user.is_staff %}
+            <th scope="col">Patient's Name</th>
+            {% else %}
+            <th scope="col">Doctor's Name</th>
+            {% endif %}
+          <th scope="col">Appointment date</th>
+          <th scope="col">Appointment start time</th>
+          <th scope="col">Appointment end time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appointment in appointments %}
+        <tr>
+            {% if user.is_staff %}
+            <td>{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</td>
+            {% else %}
+            <td>Dr. {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
+            {% endif %}
+          <td>{{ appointment.date_of_appointment }}</td>
+          <td>{{ appointment.start_time }}</td>
+          <td>{{ appointment.end_time }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -10,6 +10,9 @@ from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm,SetP
 #AuthenticationForm has user name and pass
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 #update_session_auth_hash to hash the pass
+from datetime import timedelta
+from django.utils.timezone import timedelta
+from .integration import *
 
 def home(request):
     return render(request,"home.html")
@@ -157,7 +160,48 @@ def profile(request):
     else:
         return redirect('login')
     
+
+def doctors_panel(request):
+    # doctors=UserProfile.objects.filter(is_staff=True,is_superuser=False)
+    doctors=UserProfile.objects.filter(title='Dr.')
+    print(len(doctors))
+    return render(request, 'doctors_panel.html', {'doctors': doctors})
+
+
+def book_appointment(request, pk):
+    if request.user.is_staff:
+        return redirect('my_appointments')
     
+    doctor = get_object_or_404(UserProfile, username=pk)
+    
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.doctor = doctor
+            appointment.patient = request.user
+            start_datetime = datetime.combine(appointment.date_of_appointment, appointment.start_time)
+            appointment.end_time = (start_datetime + timedelta(minutes=45)).time()
+            appointment.save()
+            event_summary = f'Appointment with a Patient {request.user.first_name} {request.user.last_name}'
+            # # create_calendar_event(event_summary, start_datetime, start_datetime + timedelta(minutes=45))
+            # creds = get_user_credentials(doctor)
+            # create_calendar_event_for_user(event_summary, start_datetime, start_datetime + timedelta(minutes=45), request.user)
+            create_calendar_event_for_user(event_summary, start_datetime, start_datetime + timedelta(minutes=45), doctor)
+            return redirect('my_appointments')
+    else:
+        form = AppointmentForm()
+    
+    return render(request, 'book_appointment.html', {'form': form, 'doctor': doctor})
+
+def my_appointments(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.user.is_staff:
+        appointments = Appointment.objects.filter(doctor=request.user)
+    else:
+        appointments = Appointment.objects.filter(patient=request.user)
+    return render(request, 'my_appointments.html', {'appointments': appointments})
 
 def create_post(request):
     if not request.user.is_staff:
@@ -196,6 +240,7 @@ def blog_list(request):
 def my_blogs(request):
     if not request.user.is_staff:
         return redirect('blog_list')
+    # print(request.user.id)
     blogs = request.user.blogs.all() 
     return render(request, 'my_blogs.html', {'blogs': blogs})
 

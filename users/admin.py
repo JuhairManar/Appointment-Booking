@@ -1,9 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from .models import *
 
 # Register your models here.
 
-admin.site.register(UserProfile)
+
+# admin.site.register(UserProfile)
 
 @admin.register(Blog)
 class Blogadmin(admin.ModelAdmin):
@@ -34,3 +36,17 @@ class Blogadmin(admin.ModelAdmin):
     
     truncated_summary.short_description = 'summary'
     truncated_content.short_description = 'content'
+    
+class CustomUserAdmin(UserAdmin):
+    list_display=['username', 'email', 'is_active', 'is_staff', 'is_superuser']
+
+
+try:
+    admin.site.register(UserProfile, CustomUserAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ['doctor','patient','required_speciality', 'date_of_appointment', 'start_time', 'end_time']
+

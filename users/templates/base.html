@@ -20,20 +20,39 @@
   
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
+
+            <li class="nav-item dropdown">
+              <a class="nav-link text-light" href="{% url 'my_appointments' %}">My appointments</a>
+            </li>
+            {% endif %}
               {% if user.is_staff %}
               <li class="nav-item active">
                 <a class="nav-link text-light" href="{% url 'create_blog' %}">Post a blog</a>
-            </li>
+              </li>
+
               <li class="nav-item">
                   <a class="nav-link text-light" href="{% url 'my_blogs' %}">My blog lists</a>
               </li>
+
               {% endif %}
+
+              {% if user.is_authenticated and not user.is_staff %}
+
+              <li class="nav-item dropdown">
+                  <a class="nav-link text-light" href="{% url 'doctors_panel' %}">Doctor's Panel</a>
+              </li>
+
+            {% endif %}
+
               {% if user.is_authenticated %}
               <li class="nav-item dropdown">
                   <a class="nav-link text-light" href="{% url 'blog_list' %}">All blogs</a>
               </li>
+
           </ul>
           {% endif %}
+
       </div>
       <div class="d-flex">
           {% if user.is_authenticated %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Doctors Panel{% endblock %}
+
+{% block body %}
+<h1>Welcome to the Doctors Panel</h1>
+
+<div class="container">
+  <div class="row">
+      {% for doctor in doctors %}
+      <div class="col-sm-4">
+          <div class="card m-2">
+              {% if doctor.profile_picture %}
+              <img src="{{ doctor.profile_picture.url }}" alt="" class="card-img-top" height="200px">
+              {% endif %}
+              <div class="card-body">
+                  <h5 class="card-title">{{ doctor.title }} {{ doctor.first_name }} {{ doctor.last_name }}</h5>
+                  {% if doctor.username %}
+                  <a href="{% url 'book_appointment' pk=doctor.username %}" class="btn btn-primary">Book Appointment</a>
+                  {% else %}
+                  <!-- Handle case where username is empty or not set -->
+                  <span class="text-muted">No appointment booking available</span>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+{% endblock %}
